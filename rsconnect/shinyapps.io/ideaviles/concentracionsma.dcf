@@ -1,0 +1,14 @@
+name: concentracionsma
+title: concentracionsma
+username:
+account: ideaviles
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 8321384
+bundleId: 6850303
+url: https://ideaviles.shinyapps.io/concentracionsma/
+when: 1676478536.69898
+lastSyncTime: 1676478536.699
+asMultiple: FALSE
+asStatic: FALSE
+ignoredFiles: .Rbuildignore|.RData|DESCRIPTION
