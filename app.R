@@ -96,7 +96,9 @@ indicators <- df_mercado |> summarise(var_pago_conecel = var(pago_conecel),
                         sd_pago_otecel = sd(pago_otecel))
 
 #df$mes <- lapply(df$mes, as.character) #transform dato to character
-datos <- list(df, df_mercado)
+df_pagos <- df_mercado |> select(1,9:11)
+df_mercado <- df_mercado |> select(1,6:8)
+datos <- list(df, df_mercado, df_pagos)
 df_mercado[vapply(df_mercado, is.numeric, logical(1))]
 
 
@@ -104,6 +106,7 @@ df_mercado[vapply(df_mercado, is.numeric, logical(1))]
 myApp <- function(){
   ui <- fluidPage(
     theme = bslib::bs_theme(bootswatch = "united"),
+    titlePanel('', windowTitle = "Concentración"),
     HTML(r"(
          <h1 style="text-align:center">ANÁLISIS DE CONCENTRACIÓN DE MERCADO</h1>
          <h6 style="color:#609EA2;">
@@ -118,18 +121,20 @@ myApp <- function(){
       sidebarPanel(
         selectInput('setdata', 'Escoge los Datos:',
                     choices = c("Líneas SMA"="1",
-                                "Participaciones de Mercado"="2")),
+                                "Participaciones de Mercado"="2",
+                                "Porcentajes de Pago por Concetración"="3")),
         selectInput("var", "Variable:", choices = NULL),
-
+        HTML(r"(
+             <h6>Indicadores:</h6>
+        )"),
+        verbatimTextOutput("indicadores"),
       ),
       mainPanel(
         plotOutput("plot_1"),
+
       )
     ),
-    fluidRow(
-      titlePanel("INDICADORES"),
-      column(12, tableOutput("indicadores"))
-    ),
+
     fluidRow(
       column(12,titlePanel(textOutput("titulo_tabla"))),
       column(12, DT::dataTableOutput("my_tabla"))
@@ -142,8 +147,8 @@ myApp <- function(){
       tibble(datos[[as.numeric(input$setdata)]])
     })
     #<< tables
-    output$indicadores <- renderTable(indicators)
-    output$my_tabla <- DT::renderDataTable(data())
+    output$indicadores <- renderPrint(indicators)
+    output$my_tabla <- DT::renderDataTable(data(), rownames = FALSE)
     observeEvent(data(), {
       updateSelectInput(session, "var", choices = colnames(data())[-1])
     })
@@ -152,8 +157,11 @@ myApp <- function(){
       if(as.numeric(input$setdata)==1){
         paste0("Tabla de LINEAS ACTIVAS SMA")
       }
-      else{
+      else if(as.numeric(input$setdata)==2){
         paste0("Tabla de PARTICIPACIONES DE MERCADO")
+      }
+      else {
+        paste0("Tabla de PORCENTAJES DE PAGO POR CONCENTRACIÓN")
       }
     )
 

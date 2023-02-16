@@ -5,10 +5,10 @@ account: ideaviles
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8321384
-bundleId: 6850303
+bundleId: 6855283
 url: https://ideaviles.shinyapps.io/concentracionsma/
-when: 1676478536.69898
-lastSyncTime: 1676478536.699
+when: 1676579227.04119
+lastSyncTime: 1676579227.04121
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: .Rbuildignore|.RData|DESCRIPTION
+ignoredFiles: .Rbuildignore|.RData|DESCRIPTION|README.md
